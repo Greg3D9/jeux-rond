@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Click the Circle</title>
+  <style>
+    body {
+      background-color: #f1f1f1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    #circle {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background-color: red;
+      cursor: pointer;
+      position: relative;
+      animation: pulse 1.5s infinite ease-in-out;
+      transition: background-color 0.3s;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.2);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    #score {
+      text-align: center;
+      font-size: 24px;
+      margin-top: 20px;
+    }
+
+    #level {
+      text-align: center;
+      font-size: 18px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div id="circle"></div>
+  <div id="score">Score: 0</div>
+  <div id="level">Level: 1</div>
+
+  <script>
+    var circle = document.getElementById("circle");
+    var score = 0;
+    var scoreElement = document.getElementById("score");
+    var levelElement = document.getElementById("level");
+    var level = 1;
+    var interval;
+
+    function startGame() {
+      interval = setInterval(function() {
+        score++;
+        circle.style.backgroundColor = getRandomColor();
+        circle.style.top = getRandomPosition() + "px";
+        circle.style.left = getRandomPosition() + "px";
+        scoreElement.innerHTML = "Score: " + score;
+
+        if (score % 10 === 0) {
+          level++;
+          levelElement.innerHTML = "Level: " + level;
+          updateAnimationDuration();
+        }
+      }, 1000);
+    }
+
+    function updateAnimationDuration() {
+      var animationDuration = 1.5 - (level * 0.1); // Decrease animation duration with each level
+      circle.style.animationDuration = animationDuration + "s";
+    }
+
+    circle.addEventListener("click", function() {
+      score++;
+      circle.style.backgroundColor = getRandomColor();
+      circle.style.top = getRandomPosition() + "px";
+      circle.style.left = getRandomPosition() + "px";
+      scoreElement.innerHTML = "Score: " + score;
+    });
+
+    function getRandomColor() {
+      var letters = "0123456789ABCDEF";
+      var color = "#";
+      for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+
+    function getRandomPosition() {
+      return Math.floor(Math.random() * 300);
+    }
+
+    startGame(); // Commencer le jeu automatiquement
+  </script>
+</body>
+</html>
